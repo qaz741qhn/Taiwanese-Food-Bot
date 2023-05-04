@@ -1,10 +1,12 @@
 class BotController < ApplicationController
   # Authenticate with Twitter API using your API keys and access tokens
-  client = Twitter::REST::Client.new do |config|
-    config.consumer_key        = ENV['TWITTER_API_KEY']
-    config.consumer_secret     = ENV['TWITTER_API_KEY_SECRET']
-    config.access_token        = ENV['TWITTER_ACCESS_TOKEN']
-    config.access_token_secret = ENV['TWITTER_ACCESS_TOKEN_SECRET']
+  def twitter_client
+    @twitter_client ||= Twitter::REST::Client.new do |config|
+      config.consumer_key        = ENV['TWITTER_API_KEY']
+      config.consumer_secret     = ENV['TWITTER_API_KEY_SECRET']
+      config.access_token        = ENV['TWITTER_ACCESS_TOKEN']
+      config.access_token_secret = ENV['TWITTER_ACCESS_TOKEN_SECRET']
+    end
   end
 
   # Get a random Taiwanese food photo and description from a website
@@ -33,13 +35,15 @@ class BotController < ApplicationController
   def tweet_taiwanese_food
     food = get_random_taiwanese_food
     tweet = "🍴 #{food['description']} #TaiwaneseFood #TaiwanFood #台灣美食"
-    client.update(tweet, open(food['image_url']))
+    twitter_client.update(tweet, open(food['image_url']))
   end
 
   # Tweet twice a day
-  loop do
-    tweet_taiwanese_food
-    sleep(12.hours)
+  def start_tweeting_loop
+    loop do
+      tweet_taiwanese_food
+      sleep(12.hours)
+    end
   end
 
 end
