@@ -34,8 +34,9 @@ class BotController < ApplicationController
   # Tweet a random Taiwanese food photo and description
   def tweet_taiwanese_food
     food = get_random_taiwanese_food
-    tweet = "🍴 #{food['description']} #TaiwaneseFood #TaiwanFood #台灣美食"
-    twitter_client.update(tweet, open(food['image_url']))
+    # tweet = "🍴 #{food['description']} #TaiwaneseFood #TaiwanFood #台灣美食"
+    test_tweet = "Test tweet! #{Time.zone.now}"
+    twitter_client.update(test_tweet)
   end
 
   # Tweet twice a day
