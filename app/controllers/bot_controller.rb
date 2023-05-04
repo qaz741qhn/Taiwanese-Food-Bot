@@ -1,8 +1,4 @@
 class BotController < ApplicationController
-  require 'open-uri'
-  require 'dotenv/load'
-  require 'nokogiri'
-
   # Authenticate with Twitter API using your API keys and access tokens
   client = Twitter::REST::Client.new do |config|
     config.consumer_key        = ENV['TWITTER_API_KEY']
